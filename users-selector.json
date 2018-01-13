@@ -1,0 +1,4 @@
+{
+    "selector": { "$offset": "request.query.offset", "$limit": "request.query.limit" },
+    "projection": { "age": 0, "password": 0 }
+}

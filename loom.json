@@ -1,0 +1,49 @@
+[
+	{
+	    "method": "POST",
+	    "path": "/users",
+	    "operations": [
+			{ "module": "mongo-lookup", "collection": "users", "query": "id-selector.json" },
+			{ "module": "user-validation" },
+			{ "module": "../modules/response", "status": 200, "body": null }
+	    ]
+	},
+	{
+	    "method": "GET",
+	    "path": "/users",
+	    "operations": [
+			{ "module": "mongo-lookup", "collection": "users", "query": "users-selector.json" },
+			{ "module": "../modules/response", "status": 200, "body": "response.locals.board" }
+	    ]
+	},
+	{
+	    "method": "GET",
+	    "path": "/users/:id",
+	    "operations": [
+			{ "module": "mongo-lookup-one", "collection": "users", "query": "id-selector.json", "error": 500, "errorMessage": null },
+			{ "module": "authorization" },
+			{ "module": "../modules/response", "status": 200, "body": "response.board" }
+	    ]
+	},
+	{
+	    "method": "PUT",
+	    "path": "/users/:id",
+	    "operations": [
+			{ "module": "update-validation" },
+			{ "module": "mongo-lookup-one", "collection": "users", "query": "id-selector.json", "error": 500, "errorMessage": null },
+			{ "module": "authorization" },
+			{ "module": "mongo-update-one", "collection": "users", "query": "update-user-selector.json" },
+			{ "module": "../modules/response", "status": 200, "body": null }
+	    ]
+	},
+	{
+	    "method": "DELETE",
+	    "path": "/users/:id",
+	    "operations": [
+			{ "module": "mongo-lookup-one", "collection": "users", "query": "id-selector.json", "error": 500, "errorMessage": null },
+			{ "module": "authorization" },
+			{ "module": "mongo-delete-one", "collection": "users", "query": "id-selector.json", "error": 500, "errorMessage": null },
+			{ "module": "../modules/response", "status": 200, "body": null }
+	    ]
+	}
+]
